@@ -3,8 +3,13 @@ import React from 'react';
 const defaultState = {
   title: "",
   body: "",
-  id: undefined
+  id: undefined,
+  done: false
 };
+
+function uniqueId() {
+  return new Date().getTime();
+}
 
 class TodoForm extends React.Component {
   constructor() {
@@ -12,7 +17,8 @@ class TodoForm extends React.Component {
     this.state = {
       title: "",
       body: "",
-      id: undefined
+      id: undefined,
+      done: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
@@ -21,7 +27,7 @@ class TodoForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({ id: new Date().getTime() });
+    this.state.id = uniqueId();
     this.props.receiveTodo(this.state);
     this.setState(defaultState);
   }
@@ -37,10 +43,9 @@ class TodoForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        {console.log(this.props.receiveTodo)}
-        <input type="text" value={this.state.title}
+        <input type="text" value={this.state.title} placeholder="title"
           onChange={this.updateTitle}></input>
-        <input type="text" value={this.state.body}
+        <input type="text" value={this.state.body} placeholder="body"
           onChange={this.updateBody}></input>
         <input type="submit" value="Add Todo"></input>
       </form>
